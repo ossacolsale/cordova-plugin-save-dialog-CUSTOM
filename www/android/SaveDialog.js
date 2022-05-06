@@ -33,6 +33,24 @@ module.exports = {
                 clearBlob();
                 return Promise.reject(reason);
             });
+    },
+    getFileUri(blob, name='') {
+        return locateFile(blob.type, name)
+            .catch(reason => {
+                clearBlob();
+                return Promise.reject(reason);
+            });
+    },
+    saveFileByUri(blob, uri) {
+        return keepBlob(blob) // see the “resume” event handler below
+            .then(() => saveFile(uri, blob))
+            .then(() => {
+                clearBlob();
+            })
+            .catch(reason => {
+                clearBlob();
+                return Promise.reject(reason);
+            });
     }
 };
 
