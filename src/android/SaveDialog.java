@@ -66,7 +66,7 @@ public class SaveDialog extends CordovaPlugin {
     private void saveFile(Uri uri, String data) {
         try {
             byte[] rawData = Base64.decode(data, Base64.DEFAULT);
-            ParcelFileDescriptor pfd = cordova.getActivity().getContentResolver().openFileDescriptor(uri, "w");
+            ParcelFileDescriptor pfd = cordova.getActivity().getContentResolver().openFileDescriptor(uri, "wt");
             FileOutputStream fileOutputStream = new FileOutputStream(pfd.getFileDescriptor());
             try {
                 fileOutputStream.write(rawData);
