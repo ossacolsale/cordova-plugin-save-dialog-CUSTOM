@@ -39,6 +39,7 @@ public class SaveDialog extends CordovaPlugin {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType(type);
         intent.putExtra(Intent.EXTRA_TITLE, name);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
         // TODO Optionally, specify a URI for the directory that should be opened in
         // the system file picker when your app creates the document.
         // intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, pickerInitialUri);
@@ -52,6 +53,7 @@ public class SaveDialog extends CordovaPlugin {
                 this.callbackContext.error("The dialog has been cancelled");
             } else if (resultCode == Activity.RESULT_OK && resultData != null) {
                 Uri uri = resultData.getData();
+                cordova.getActivity().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 this.callbackContext.success(uri.toString());
             } else {
                 this.callbackContext.error("Unknown error");
